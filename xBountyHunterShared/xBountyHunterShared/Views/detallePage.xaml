@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="xBountyHunterShared.Views.detallePage">
+    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+        <Label FontSize="20" HorizontalOptions="Center"> Atrapado!!! </Label>
+        <StackLayout Orientation="Vertical" HorizontalOptions="Center" WidthRequest="100"
+            HeightRequest="100" BackgroundColor="Gray">
+            <Image x:Name="img" Aspect="Fill" WidthRequest="100" HeightRequest="100"/>
+        </StackLayout>
+        <Button Clicked="bmap_Clicked"  HorizontalOptions="Center" Text="Ver en mapa"/>
+        <Button Clicked="Beliminar_Clicked"  HorizontalOptions="Center" Text="Eliminar"/>
+    </StackLayout>
+</ContentPage>
