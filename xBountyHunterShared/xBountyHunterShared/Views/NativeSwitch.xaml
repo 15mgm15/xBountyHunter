@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="xBountyHunterShared.Views.NativeSwitch"
+    xmlns:ios="clr-namespace:UIKit;assembly=Xamarin.iOS;targetPlatform=iOS"
+    xmlns:androidWidget="clr-namespace:Android.Widget;assembly=Mono.Android;targetPlatform=Android"
+    xmlns:formsAndroid="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.Platform.Android;targetPlatform=Android"
+    Title="Switch">
+    <ContentPage.Content>
+        <StackLayout Margin="20">
+            <Label Text="Switch" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Entry Placeholder="Este entry esta ligado al switch" IsEnabled="{Binding IsSwitchOn}" />
+            <ios:UISwitch
+                On="{Binding Path=IsSwitchOn, Mode=TwoWay,
+                UpdateSourceEventName=ValueChanged}"/>
+            <androidWidget:Switch 
+                x:Arguments="{x:Static formsAndroid:Forms.Context}"
+                Checked="{Binding Path=IsSwitchOn, Mode=TwoWay, UpdateSourceEventName=CheckedChange}"
+                Text="Habilitar Entry?"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

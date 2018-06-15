@@ -179,6 +179,8 @@
     <Compile Include="SQLiteAndroid.cs" />
     <Compile Include="CameraAndroid.cs" />
     <Compile Include="GetLocationAndroid.cs" />
+    <Compile Include="CustomRenderers\EntryCustomRendererDriod.cs" />
+    <Compile Include="CustomRenderers\CustomMapDroid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -205,6 +207,9 @@
       <Project>{DC924885-BF7B-468F-8A39-6C371FF4E0AB}</Project>
       <Name>xBountyHunterShared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CustomRenderers\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />

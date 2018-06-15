@@ -89,7 +89,7 @@ namespace xBountyHunterShared.Views
 
             Content = verticalStackLayout;
 
-            bcapturar.IsEnabled = false;
+            //bcapturar.IsEnabled = false;
 
             bcapturar.Clicked += Bcapturar_Clicked;
             beliminar.Clicked += Beliminar_Clicked;
@@ -125,7 +125,7 @@ namespace xBountyHunterShared.Views
 
             int result = DB.updateItem(Fugitivo);
 
-            string message = ws.connectPOST(udid);
+            string message = await ws.connectPOST(udid);
             if (result == 1)
             {
                 await DisplayAlert("Capturado", "El fugitivo " + Fugitivo.Name + " ha sido capturado\n" + message, "Aceptar");

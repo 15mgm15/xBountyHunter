@@ -63,9 +63,22 @@
     <Compile Include="Views\mapPage.cs" />
     <Compile Include="IApplicationInfo.cs" />
     <Compile Include="MiLabel.cs" />
+    <Compile Include="ViewModels\fugitivosVm.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="CustomRenderers\EntryCustomRenderer.cs" />
+    <Compile Include="CustomRenderers\CustomMap.cs" />
+    <Compile Include="CustomRenderers\NativeSwitchRenderer.cs" />
+    <Compile Include="ViewModels\NativeSwitchViewModel.cs" />
+    <Compile Include="Views\NativeSwitch.xaml.cs">
+      <DependentUpon>NativeSwitch.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\NativeSwitch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -127,6 +140,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+    <Folder Include="CustomRenderers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">

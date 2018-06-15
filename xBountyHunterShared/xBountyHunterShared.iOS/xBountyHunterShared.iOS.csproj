@@ -94,6 +94,7 @@
     <Compile Include="GetLocationiOS.cs" />
     <Compile Include="GetDeviceInfoiOS.cs" />
     <Compile Include="MiLabeliOS.cs" />
+    <Compile Include="CustomRenderers\CustomMapiOS.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -163,6 +164,9 @@
       <Project>{DC924885-BF7B-468F-8A39-6C371FF4E0AB}</Project>
       <Name>xBountyHunterShared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CustomRenderers\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />

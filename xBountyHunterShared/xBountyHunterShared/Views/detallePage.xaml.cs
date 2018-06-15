@@ -45,6 +45,8 @@ namespace xBountyHunterShared.Views
         async void bmap_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new mapPage(Fugitivo));
+
+
         }
 	}
 }

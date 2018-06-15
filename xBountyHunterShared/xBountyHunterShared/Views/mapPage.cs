@@ -3,6 +3,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using xBountyHunterShared.Models;
+using xBountyHunterShared.CustomRenderers;
 
 namespace xBountyHunterShared.Views
 {
@@ -15,15 +16,21 @@ namespace xBountyHunterShared.Views
 
             Position pos = new Position(lat, lon);
             MapSpan span = MapSpan.FromCenterAndRadius(pos, Distance.FromKilometers(3));
-            Map capturadosMap = new Map(span);
-            capturadosMap.MapType = MapType.Street;
-            capturadosMap.IsShowingUser = false;
+            CustomMap capturadosMap = new CustomMap(span)
+            {
+                MapType = MapType.Street,
+                IsShowingUser = false
+            };
 
-            Pin pin = new Pin();
-            pin.Type = PinType.Place;
-            pin.Position = pos;
-            pin.Label = fugitivo.Name;
-            capturadosMap.Pins.Add(pin);
+            Pin pin = new Pin
+            {
+                Type = PinType.Place,
+                Position = pos,
+                Label = fugitivo.Name
+            };
+            capturadosMap.Circle = new MapCircle{ Position = pos, Radious = 100 };
+            capturadosMap.MoveToRegion(span);
+            //capturadosMap.Pins.Add(pin);
 
             StackLayout verticalStackLayout = new StackLayout
             {

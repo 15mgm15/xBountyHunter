@@ -1,5 +1,8 @@
 ﻿using Xamarin.Forms;
 using xBountyHunterShared.Views;
+using System;
+using xBountyHunterShared.Extras;
+using System.Threading.Tasks;
 
 namespace xBountyHunterShared
 {

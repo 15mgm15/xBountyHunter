@@ -12,7 +12,7 @@ namespace xBountyHunterShared.Views
     {
         public MainTabbedPage()
         {
-            updateDB();
+            //updateDB();
             ToolbarItem btnAgregar = new ToolbarItem("Agregar", string.Empty, btnAgregar_onClick);
             ToolbarItems.Add(btnAgregar);
             Title = "X Bounty Hunter";
@@ -25,6 +25,7 @@ namespace xBountyHunterShared.Views
             Children.Add(new fugitivosPage());
             Children.Add(new capturadosPage());
             Children.Add(new acercaDePage());
+            //Children.Add(new NativeSwitch());
         }
 
         public void btnAgregar_onClick()
@@ -32,10 +33,10 @@ namespace xBountyHunterShared.Views
             Navigation.PushAsync(new agregarFugitivo());
         }
 
-        void updateDB()
+        async Task updateDB()
         {
             webServicesConnection ws = new webServicesConnection(this);
-            ws.connectGET();
+            await ws.connectGET();
         }
 
     }

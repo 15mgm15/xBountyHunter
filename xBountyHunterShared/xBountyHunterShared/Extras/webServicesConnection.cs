@@ -14,8 +14,8 @@ namespace xBountyHunterShared.Extras
 {
     public class webServicesConnection
     {
-        private const string URL_WS1 = @"http://201.168.207.210/services/droidBHServices.svc/fugitivos";
-        private const string URL_WS2 = @"http://201.168.207.210/services/droidBHServices.svc/atrapados";
+        const string URL_WS1 = @"http://201.168.207.210/services/droidBHServices.svc/fugitivos";
+        const string URL_WS2 = @"http://201.168.207.210/services/droidBHServices.svc/atrapados";
 
         HttpClient client;
         Page mainPage;
@@ -25,16 +25,16 @@ namespace xBountyHunterShared.Extras
             mainPage = page;
         }
 
-        public void connectGET()
+        public async Task connectGET()
         {
             List<mFugitivos> fujitivos = new List<mFugitivos>();
             client = new HttpClient();
             try
             {
-                HttpResponseMessage response = client.GetAsync(URL_WS1).Result;
+                HttpResponseMessage response = await client.GetAsync(URL_WS1).ConfigureAwait(false);
                 if(response.IsSuccessStatusCode)
                 {
-                    string content = response.Content.ReadAsStringAsync().Result;
+                    string content = await response.Content.ReadAsStringAsync();
                     List<mFugitivos> items = JsonConvert.DeserializeObject<List<mFugitivos>>(content);
                     verifyFugitivosOnDB(items);
                     response.Dispose();
@@ -44,33 +44,16 @@ namespace xBountyHunterShared.Extras
             {
                 if(ex.InnerException != null && ex.InnerException.Message == "Error: NameResolutionFailure")
                 {
-                    connectGET();
+                    await connectGET();
                 }
                 else
                 {
-                    mainPage.DisplayAlert("Error", "No se pudo conectar con los servicios web", "Aceptar");
+                    await mainPage.DisplayAlert("Error", "No se pudo conectar con los servicios web", "Aceptar");
                 }
             }
         }
 
-        private void verifyFugitivosOnDB(List<mFugitivos> fugitivos)
-        {
-            List<mFugitivos> dbFugitivos = new List<mFugitivos>();
-            databaseManager db = new databaseManager();
-            dbFugitivos = db.selectAll();
-
-            foreach (var fugitivo in fugitivos)
-            {
-                if(!dbFugitivos.Exists(x => x.Name == fugitivo.Name))
-                {
-                    fugitivo.Capturado = false;
-                    db.insertItem(fugitivo);
-                }
-            }
-            db.closeConnection();
-        }
-
-        public string connectPOST(string udid)
+        public async Task<string> connectPOST(string udid)
         {
             string result = "";
             string postBody = "{\"UDIDString\":\""+udid+"\"}";
@@ -79,10 +62,10 @@ namespace xBountyHunterShared.Extras
             {
                 HttpContent bodyContent = new StringContent(postBody, Encoding.UTF8, "application/json");
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.PostAsync(URL_WS2, bodyContent).Result;
+                HttpResponseMessage response = await client.PostAsync(URL_WS2, bodyContent);
                 if(response.IsSuccessStatusCode)
                 {
-                    string content = response.Content.ReadAsStringAsync().Result;
+                    string content = await response.Content.ReadAsStringAsync();
                     Dictionary<string, string> jsondata = JsonConvert
                         .DeserializeObject<Dictionary<string, string>>(content);
                     result = jsondata["mensaje"];
@@ -92,16 +75,31 @@ namespace xBountyHunterShared.Extras
             {
                 if (ex.InnerException != null && ex.InnerException.Message == "Error: NameResolutionFailure")
                 {
-                    result = connectPOST(udid);
+                    result = await connectPOST(udid);
                 }
                 else
                 {
-                    mainPage.DisplayAlert("Error", "No se pudo conectar con los servicios web", "Aceptar");
+                    await mainPage.DisplayAlert("Error", "No se pudo conectar con los servicios web", "Aceptar");
                 }
             }
             return result;
         }
 
+        void verifyFugitivosOnDB(List<mFugitivos> fugitivos)
+        {
+            List<mFugitivos> dbFugitivos = new List<mFugitivos>();
+            databaseManager db = new databaseManager();
+            dbFugitivos = db.selectAll();
 
+            foreach (var fugitivo in fugitivos)
+            {
+                if (!dbFugitivos.Exists(x => x.Name == fugitivo.Name))
+                {
+                    fugitivo.Capturado = false;
+                    db.insertItem(fugitivo);
+                }
+            }
+            db.closeConnection();
+        }
     }
 }

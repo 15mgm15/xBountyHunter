@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Xamarin.Forms;
 using xBountyHunterShared.Extras;
 using xBountyHunterShared.Models;
-using System.ComponentModel;
+using xBountyHunterShared.ViewModels;
 
 namespace xBountyHunterShared.Views
 {
@@ -21,18 +17,47 @@ namespace xBountyHunterShared.Views
 
         bool IsRefreshing { get; set; }
 
+        fugitivosVm _vm;
+
         public fugitivosPage()
         {
             Title = "Fugitivos";
+
+            ActivityIndicator t = new ActivityIndicator();
+            t.SetBinding(ActivityIndicator.IsVisibleProperty, nameof(_vm.IsBusy));
+
             listaFugitivos listaFigitivos = new listaFugitivos();
             list.ItemTemplate = new DataTemplate(typeof(ListViewCell));
             MessagingCenter.Subscribe<Page>(this, "Update", messageCallback);
+
+            _vm = new fugitivosVm();
+            BindingContext = _vm;
+
             list.ItemsSource = listaFigitivos.getFugitivos();
             list.ItemTapped += List_ItemTapped;
             Content = list;
 
-            //BindingContext = new FugitivosPageVm();
-            //list.SetBinding(ListView.IsRefreshingProperty, nameof(IsRefreshing));
+            Device.StartTimer(new TimeSpan(0, 0, 5), () =>
+            {
+                try
+                {
+                    Device.BeginInvokeOnMainThread(() => 
+                    {
+                        list.ItemsSource = listaFigitivos.getFugitivos(); 
+                    });
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            });
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
         }
 
         void messageCallback(Page obj)
